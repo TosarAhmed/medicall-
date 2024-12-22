@@ -3,19 +3,89 @@
 {% block title %}{{item.name}} {% endblock %}
 
 {% block content %}
-<div class="grid grid-cols-5 gap-6">
+<!-- <div class="grid grid-cols-5 gap-6">
     <div class="col-span-3">
         <img src="{{item.image.url}}" class="rounded-xl">
     </div>
-</div>
-
-    {% if request.user == item.created_by %}
-        <div class="mt-6 px-3 py-3 bg-gray-300 rounded-xl">
-            <p>This is your Item!</p>
-            <a href="{% url 'item:edit' item.id %}" class="inline-block mt-6 px-6 py-3 text-white font-semibold bg-teal-500 rounded-xl hover:bg-red-300">Edit</a>
-            <a href="{% url 'item:delete' item.id %}" class="inline-block mt-6 px-6 py-3 text-white font-semibold bg-red-500 rounded-xl hover:bg-red-300">Delete</a>
+</div> -->
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row gap-8 mb-12">
+        <!-- Left side - Medicine Image -->
+        <div class="md:w-1/2">
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <img src="{{item.image.url}}" alt="Medicine Name" class="w-full h-auto rounded-lg shadow-lg">
+            </div>
         </div>
-    {% else %}
-        <a href="{% url 'conversation:new' item.id %}" class="inline-block mt-6 px-6 py-3 text-white font-semibold bg-teal-500 rounded-xl hover:bg-teal-300">Contact Seller</a>
-    {% endif %}
+
+        <!-- Right side - Basic Info, Price, and Add to Cart -->
+        <div class="md:w-1/2">
+            <h1 class="text-3xl font-bold mb-4">Medicine Name</h1>
+            <div class="flex items-center mb-4">
+                <div class="flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                </div>
+                <span class="ml-2 text-gray-600">(128 reviews)</span>
+            </div>
+            <p class="text-lg mb-4">Brief description of the medicine and its primary use.</p>
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold mb-2">Key Benefits:</h2>
+                <ul class="list-disc list-inside text-gray-700">
+                    <li>Benefit 1</li>
+                    <li>Benefit 2</li>
+                    <li>Benefit 3</li>
+                </ul>
+            </div>
+            <div class="flex items-center justify-between mb-6">
+                <span class="text-3xl font-bold text-primary">$24.99</span>
+                <a href="" class="bg-teal-400 hover:bg-teal-300 font-bold py-2 px-4 rounded flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    Add to Cart
+                </a>
+            </div>
+            <div class="bg-blue-100 text-blue-800 p-4 rounded-lg">
+                <h3 class="font-semibold mb-2">Important Information:</h3>
+                <p>Please consult with a healthcare professional before use. Keep out of reach of children.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom - Detailed Description -->
+    <div class="bg-white rounded-lg shadow-md mt-8 p-6">
+        <h2 class="text-2xl font-bold mb-4">Detailed Description</h2>
+        <p class="text-gray-700 mb-4">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </p>
+        <h3 class="text-xl font-semibold mb-2">Ingredients:</h3>
+        <p class="text-gray-700 mb-4">
+            Ingredient 1, Ingredient 2, Ingredient 3, Ingredient 4, Ingredient 5
+        </p>
+        <h3 class="text-xl font-semibold mb-2">Dosage and Administration:</h3>
+        <p class="text-gray-700 mb-4">
+            Take one tablet twice daily with meals, or as directed by your healthcare provider. Do not exceed the recommended dosage.
+        </p>
+        <h3 class="text-xl font-semibold mb-2">Precautions:</h3>
+        <ul class="list-disc list-inside text-gray-700">
+            <li>Do not use if seal is broken or missing</li>
+            <li>Store in a cool, dry place</li>
+            <li>Keep out of reach of children</li>
+            <li>Consult a doctor if you are pregnant, nursing, or have any medical conditions</li>
+        </ul>
+    </div>
+</div>
 {% endblock %}

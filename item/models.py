@@ -14,7 +14,12 @@ class Category(models.Model):
 class Item(models.Model):
     category = models.ForeignKey(Category, related_name='items', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
+    mg = models.TextField(max_length=50, blank=True, null=True)
+    group = models.TextField(max_length=255, blank=True, null=True)
+    company = models.TextField(max_length=255, blank=True, null=True)
+    short_description = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    
     price = models.FloatField()
     image = models. ImageField(upload_to = 'items images', blank=True, null=True)
     is_sold = models.BooleanField(default=False)

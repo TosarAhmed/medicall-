@@ -6,9 +6,12 @@ from .forms import NewItemForm, EditItemForm
 
 def items(request):
     query = request.GET.get('query', '')
-    categories = Category.objects.all()
+    search_category = request.GET.get('category', '')
+    categories = Category.objects.all().order_by('-id')
     items = Item.objects.filter(is_sold=False)
-   
+    print(search_category)
+    if search_category:
+        items = items.filter(category_id=search_category)
     if query:
         items = items.filter(Q(name__icontains=query) | Q(description__icontains=query))
 
