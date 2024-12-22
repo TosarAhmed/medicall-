@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport", content="width=device-width", initial-scale="1.0">
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        <title>{% block title %} {% endblock %} | MediCall+ </title>
+    </head>
+
+    <body>
+        <nav class="px-2 py-2 flex justify-between items-center border-b border-gray-200">
+            <a href="/", class="text-xl font-semibold text-teal-600">MediCall+</a>
+
+            <div class="space-x-6">
+                <div class="flex gap-3 justify-between items-center px-8"></div>
+                <a href="{% url 'item:items' %}", class="text-sm font-semibold hover:text-teal-400">Browse Medicine</a>
+
+                {% if request.user.is_authenticated %}
+                    
+                        <a href="{% url 'item:new' %}", class="text-sm font-semibold hover:text-teal-400">Add Medicine</a>
+                        <a href="#", class="text-sm font-semibold hover:text-teal-400">Inbox</a>
+                        <a href="{% url 'dashboard:index' %}", class="text-sm font-semibold hover:text-teal-400">Dashboard</a>
+                        <form method="post" class="inline" action="{% url 'core:logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="text-sm text-red-600 font-semibold hover:text-red-800">Logout</button>
+                        </form>
+                         
+                    
+                {% else %}
+                    <a href="{% url 'core:signup' %}", class="text-sm font-semibold hover:text-teal-400">Sign Up</a>
+                    <a href="{% url 'core:login' %}", class="text-sm font-semibold hover:text-teal-400">Log in</a>
+                {% endif %}
+                
+            </div>
+            </div>
+        </nav>
+
+        <div class="px-6 py-6">
+        {% block content %}
+        {% endblock %}
+        </div>
+        <footer class="px-6 py-3 flex justify-between">
+            <div class="w-2/3 pr-10">
+ 
+                <a href="/", class="text-xl font-semibold text-teal-600">MediCall+</a>
+                <p class="text-gray-400">Tosar Ahmed. <br> B.Sc in Software Engineering <br> at Daffodil International University.</p>
+            </div>
+
+            <div class=" ">
+                <ul>
+                    <li><a href="#", class="text-sm font-semibold hover:text-teal-400">About</a></li>
+                    <li><a href="{% url 'core:contact' %}", class="text-sm font-semibold hover:text-teal-400">Contact</a></li>
+                    <li><a href="#", class="text-sm font-semibold hover:text-teal-400">Privacy Policy</a></li>
+                    <li><a href="#", class="text-sm font-semibold hover:text-teal-400">Use of Terms</a></li>
+                </ul>
+                    
+            </div>
+
+        </footer>
+    </body>
+
+</html>
