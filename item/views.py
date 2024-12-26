@@ -1,8 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q 
 from django.shortcuts import render, get_object_or_404, redirect 
-from .models import Category, Item 
+from .models import Category
+from .models import Item, Cart, CartItem
+from django.http import JsonResponse
 from .forms import NewItemForm, EditItemForm
+from django.shortcuts import get_object_or_404, redirect
+
 
 def items(request):
     query = request.GET.get('query', '')
@@ -27,6 +31,33 @@ def detail(request, pk):
     return render(request, 'item/detail.html', {
         'item': item,
     })
+
+def add_to_cart(request):
+    item_id = request.GET.get('item_id')
+    quantity = int(request.GET.get('quantity', 1))  # Default to 1 if quantity is not provided
+
+    if not item_id:
+        return JsonResponse({'error': 'Item ID is required'}, status=400)
+
+    # Retrieve the item object
+    item = get_object_or_404(Item, id=item_id)
+
+    # Simulate a user cart; in a real scenario, this could be linked to the logged-in user
+    cart, created = Cart.objects.get_or_create(user=request.user)
+
+    # Check if the item is already in the cart
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, item=item)
+
+    if not created:
+        # If the item is already in the cart, update the quantity
+        cart_item.quantity += quantity
+        cart_item.save()
+        return JsonResponse({'message': f'Updated quantity for {item.name} to {cart_item.quantity}'}, status=200)
+    else:
+        # If the item is not in the cart, set the initial quantity
+        cart_item.quantity = quantity
+        cart_item.save()
+        return JsonResponse({'message': f'Added {item.name} to cart with quantity {quantity}'}, status=200)
 
 @login_required
 def new(request):
