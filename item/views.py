@@ -7,6 +7,11 @@ from django.http import JsonResponse
 from .forms import NewItemForm, EditItemForm
 from django.shortcuts import get_object_or_404, redirect
 
+def safe_parse_int(value, base=10):
+    try:
+        return int(value, base)
+    except ValueError:
+        return None
 
 def items(request):
     query = request.GET.get('query', '')
@@ -23,6 +28,7 @@ def items(request):
         'items': items,
         'query': query,
         'categories': categories,
+        'search_category': safe_parse_int(search_category),
     })
 
 def detail(request, pk):
