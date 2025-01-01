@@ -107,3 +107,9 @@ def delete(request, pk):
     item.delete()
 
     return redirect('dashboard:index')
+
+
+@login_required
+def cart_items(request):
+
+    return render(request, 'item/cart_items.html')
