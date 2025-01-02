@@ -111,6 +111,22 @@ def delete(request, pk):
 
 
 @login_required
+def delete_cart_item(request, itemid):
+
+    
+    # cart = Cart.objects.get(user=request.user)
+    
+    cart_item = CartItem.objects.get(id=itemid)
+    # Delete the CartItem
+    cart_item.delete()
+
+    # print(cart_item)
+    return redirect('item:cart-items')
+    # else:
+    #     return redirect('/')
+
+
+@login_required
 def cart_items(request):
     
     cart = Cart.objects.get(user=request.user)

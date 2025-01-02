@@ -37,7 +37,7 @@
                                 
                                 
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <form method="post" action="" class="flex items-center">
+                                    <form method="post" action="{% url 'item:delete-cart-item' itemid=cart.id %}" class="flex items-center">
                                         {% csrf_token %}
                                          
                                         <button type="submit" class="ml-2 px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
