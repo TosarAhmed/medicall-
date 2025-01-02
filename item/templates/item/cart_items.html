@@ -3,86 +3,78 @@
 {% block title %}{{item.name}} {% endblock %}
 
 {% block content %}
-<div class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-8">Your Cart</h1>
-        <div class="grid grid-cols-4 gap-4 justify-between">
-            <div id="cart-items" class="space-y-4 col-span-3">
-                <!-- Cart items will be dynamically inserted here -->
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Your Cart</h1>
+
+    {% if cart_items %}
+        <div class="grid grid-cols-4">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden col-span-3">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        {% for cart in cart_items %}
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        {% if cart.item.image %}
+                                            <img class="h-16 w-16 rounded-full mr-3" src="{{ cart.item.image.url }}" alt="{{ item.name }}">
+                                        {% endif %}
+                                        <div class="text-sm font-medium text-gray-900">
+                                            <p class="text-lg">{{ cart.item.name }}</p>
+                                            <span class="text-sm text-gray-500">{{ cart.item.category.name }} |  {{ cart.item.mg }} | {{ cart.item.company }}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ cart.item.price|floatformat:2 }} TK</div>
+                                </td>
+                                
+                                
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <form method="post" action="" class="flex items-center">
+                                        {% csrf_token %}
+                                         
+                                        <button type="submit" class="ml-2 px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h2 class="text-2xl font-semibold mb-4">Cart Summary</h2>
-                <p class="text-xl">Total: $<span id="cart-total">0.00</span></p>
-                <button id="checkout-button" class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                    Proceed to Checkout
-                </button>
+    
+            <div class="mt-8 bg-white shadow-md rounded-lg p-6">
+                <p class="font-bold text-xl mb-1">Products</p>
+                {% for cart in cart_items %}
+                    <span class="text-gray-600 font-semibold py-2">{{cart.item.category.name}} - {{cart.item.price}} x {{cart.quantity}} = {{cart.total_price}} </span><br>
+                {% endfor %}
+                <div class="flex justify-between items-center mt-4">
+                    
+                    <span class="text-lg font-semibold">Total:</span>
+                    <span class="text-2xl font-bold">{{ cart_total|floatformat:2 }} TK</span>
+                </div>
+                <div class="mt-6">
+                    <a href="" class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 inline-block text-center">
+                        Proceed to Checkout
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-
-    <script>
-        // Sample cart data
-        const cart = [
-            { id: 1, name: "Wireless Earbuds", price: 79.99, quantity: 1, image: "https://via.placeholder.com/150" },
-            { id: 2, name: "Smartphone Case", price: 19.99, quantity: 2, image: "https://via.placeholder.com/150" },
-            { id: 3, name: "USB-C Cable", price: 9.99, quantity: 3, image: "https://via.placeholder.com/150" },
-        ];
-
-        function renderCart() {
-            const cartItemsContainer = document.getElementById('cart-items');
-            cartItemsContainer.innerHTML = '';
-
-            cart.forEach(item => {
-                const itemElement = document.createElement('div');
-                itemElement.className = 'bg-white p-6 rounded-lg shadow flex items-center space-x-4';
-                itemElement.innerHTML = `
-                    <img src="${item.image}" alt="${item.name}" class="w-24 h-24 object-cover rounded">
-                    <div class="flex-grow">
-                        <h3 class="text-lg font-semibold">${item.name}</h3>
-                        <p class="text-gray-600">$${item.price.toFixed(2)}</p>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <button onclick="updateQuantity(${item.id}, ${item.quantity - 1})" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-2 rounded">-</button>
-                        <input type="number" value="${item.quantity}" onchange="updateQuantity(${item.id}, this.value)" class="w-16 text-center border rounded py-1 px-2">
-                        <button onclick="updateQuantity(${item.id}, ${item.quantity + 1})" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-2 rounded">+</button>
-                    </div>
-                    <button onclick="removeItem(${item.id})" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded">Remove</button>
-                `;
-                cartItemsContainer.appendChild(itemElement);
-            });
-
-            updateTotal();
-        }
-
-        function updateQuantity(id, newQuantity) {
-            const item = cart.find(item => item.id === id);
-            if (item && newQuantity >= 0) {
-                item.quantity = parseInt(newQuantity);
-                renderCart();
-            }
-        }
-
-        function removeItem(id) {
-            const index = cart.findIndex(item => item.id === id);
-            if (index !== -1) {
-                cart.splice(index, 1);
-                renderCart();
-            }
-        }
-
-        function updateTotal() {
-            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-            document.getElementById('cart-total').textContent = total.toFixed(2);
-        }
-
-        // Initial render
-        renderCart();
-
-        // Add event listener for checkout button
-        document.getElementById('checkout-button').addEventListener('click', function() {
-            alert('Proceeding to checkout...');
-            // Here you would typically redirect to a checkout page or open a checkout modal
-        });
-    </script>
+    {% else %}
+        <div class="bg-white shadow-md rounded-lg p-6 text-center">
+            <p class="text-xl">Your cart is empty.</p>
+            <a href="" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                Continue Shopping
+            </a>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

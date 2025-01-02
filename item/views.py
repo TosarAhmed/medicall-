@@ -6,6 +6,7 @@ from .models import Item, Cart, CartItem
 from django.http import JsonResponse
 from .forms import NewItemForm, EditItemForm
 from django.shortcuts import get_object_or_404, redirect
+from django.core.serializers import serialize
 
 def safe_parse_int(value, base=10):
     try:
@@ -111,5 +112,12 @@ def delete(request, pk):
 
 @login_required
 def cart_items(request):
+    
+    cart = Cart.objects.get(user=request.user)
+    cart_items = CartItem.objects.filter(cart=cart)
+    cart_total = sum(cart_item.item.price * cart_item.quantity for cart_item in cart.cart_items.all())
 
-    return render(request, 'item/cart_items.html')
+    for cart in cart_items:
+        cart.total_price = cart.item.price * cart.quantity
+
+    return render(request, 'item/cart_items.html', {'cart_items': cart_items, 'cart_total': cart_total})
