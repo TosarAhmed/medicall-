@@ -3,6 +3,7 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
+    order = models.IntegerField(default=1)
 
     class Meta:
         ordering = ('name',)
@@ -14,7 +15,7 @@ class Category(models.Model):
 class Item(models.Model):
     category = models.ForeignKey(Category, related_name='items', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    mg = models.TextField(max_length=50, blank=True, null=True)
+    mg = models.TextField(max_length=50, blank=True, null=True, verbose_name="Unit")
     group = models.TextField(max_length=255, blank=True, null=True)
     company = models.TextField(max_length=255, blank=True, null=True)
     short_description = models.TextField(blank=True, null=True)
@@ -32,7 +33,7 @@ class Item(models.Model):
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-
+   
     def __str__(self):
         return str(self.user.id)
 

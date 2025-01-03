@@ -17,7 +17,7 @@ def safe_parse_int(value, base=10):
 def items(request):
     query = request.GET.get('query', '')
     search_category = request.GET.get('category', '')
-    categories = Category.objects.all().order_by('-id')
+    categories = Category.objects.all().order_by('order')
     items = Item.objects.filter(is_sold=False)
     print(search_category)
     if search_category:
@@ -136,4 +136,4 @@ def cart_items(request):
     for cart in cart_items:
         cart.total_price = cart.item.price * cart.quantity
 
-    return render(request, 'item/cart_items.html', {'cart_items': cart_items, 'cart_total': cart_total})
+    return render(request, 'item/cart_items.html', {'cart_items': cart_items, 'cart_total': cart_total, 'cart_id': cart.id})
