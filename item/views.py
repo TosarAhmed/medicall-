@@ -19,7 +19,10 @@ def items(request):
     search_category = request.GET.get('category', '')
     categories = Category.objects.all().order_by('order')
     items = Item.objects.filter(is_sold=False)
-    print(search_category)
+ 
+    current_category = ""
+    if search_category:
+        current_category = Category.objects.get(id=search_category).name
     if search_category:
         items = items.filter(category_id=search_category)
     if query:
@@ -30,6 +33,7 @@ def items(request):
         'query': query,
         'categories': categories,
         'search_category': safe_parse_int(search_category),
+        'current_category': current_category,
     })
 
 def detail(request, pk):

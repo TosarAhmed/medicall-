@@ -5,7 +5,7 @@
 {% block content %}
 
     <div class="pb-6 grid grid-cols-5 gap-4">
-
+        
         <div class="col-span-1  bg-gray-100 py-3 px-2 rounded-md">
             <form method="get", action="{% url 'item:items' %}">
                 <div class="flex justify-between items-center gap-2">
@@ -44,6 +44,12 @@
         </div>
 
         <div class="col-span-4">
+            {% if current_category %}
+            <div class="py-3">
+              <a href="/"><span class="bg-gray-400 text-white rounded px-2 text-center pb-1 hover:bg-gray-500">Home ></span></a>
+              <span class="bg-gray-400 text-white rounded px-2 text-center pb-1">{{current_category}}</span>
+            </div>
+            {% endif %}
             <div class="grid grid-cols-4 gap-4  ">
                 {% for item in items %}
                 <div class="w-full flex items-center justify-center  bg-gray-200">
