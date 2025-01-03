@@ -1,13 +1,61 @@
-<h1>Order Confirmation</h1>
-<p>Thank you for your order, {{ order.user.username }}!</p>
-<p>Order ID: {{ order.id }}</p>
-<p>Total Price: ${{ order.total_price }}</p>
+{% extends 'core/base.html' %}
 
-<h2>Items:</h2>
-<ul>
-    {% for item in order.order_items.all %}
-    <li>
-        {{ item.quantity }} x {{ item.item.name }} @ ${{ item.price }} each
-    </li>
-    {% endfor %}
-</ul>
+{% block title %}Confirm Order{% endblock %}
+
+{% block content %}
+
+<div class="min-h-[65vh] flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg border border-teal-200 shadow-xl p-8 max-w-lg w-full">
+        <div class="text-center mb-8">
+            <i class="fas fa-check-circle text-5xl text-green-500 mb-4"></i>
+            <h1 class="text-3xl font-bold text-gray-800">Order Confirmation</h1>
+        </div>
+
+        <p class="text-lg text-gray-700 mb-4">Thank you for your order, <span class="font-semibold">
+                {{order.user.username }}</span>!</p>
+        <p class="text-base bg-gray-200 text-center rounded py-1 text-gray-800 mb-4"><span class="font-semibold">
+                {{order.delivery_address.address }}, {{order.delivery_address.division }},
+                {{order.delivery_address.district }}, Bangladesh</span></p>
+        <p class="text-base bg-gray-200 text-center rounded py-1 text-gray-800 mb-4"><span class="font-semibold">
+            Mobile No: <span class="text-gray-900">{{order.delivery_address.contact_no }}</span></span></p>
+        
+
+
+
+        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+            <p class="text-sm text-gray-600 mb-1">Order ID: <span class="font-mono text-gray-800">{{ order.id }}</span>
+            </p>
+
+            <p class="text-lg font-bold text-gray-800">Total Price: {{ order.total_price }} TK</p>
+        </div>
+
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Items:</h2>
+        <ul class="space-y-2">
+            {% for item in order.order_items.all %}
+            <li class="flex justify-between items-center bg-gray-50 rounded p-3">
+                <span class="text-gray-700">
+                    <i class="fas fa-box-open mr-2 text-gray-400"></i>
+                    {{ item.quantity }} x {{ item.item.name }}
+                </span>
+                <span class="font-semibold text-gray-800">{{ item.price }} TK each</span>
+            </li>
+            {% endfor %}
+            <li class="flex justify-between items-center bg-gray-50 rounded p-3">
+                <span class="text-gray-700">
+                    <i class="fas fa-box-open mr-2 text-gray-400"></i>
+                    Delivery Cost
+                </span>
+                <span class="font-semibold text-gray-800">50 TK</span>
+            </li>
+        </ul>
+
+        <div class="mt-8 text-center">
+            <p class="text-sm text-gray-600">
+                If you have any questions, please contact our
+                <a href="mailto:atosar7@gmail.com" class="text-blue-500 hover:underline">customer support</a>.
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

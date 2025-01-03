@@ -6,23 +6,30 @@
 <div class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-6 text-center">Confirm Your Order</h1>
-        <div class="flex flex-col md:flex-row gap-8">
-            <!-- Left side: Customer Information -->
-            <div class="md:w-2/3">
-                <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                    <h2 class="text-2xl font-semibold mb-4">Customer Information</h2>
-                    <form>
+        <form method="POST" action="{% url 'payment:delivery-address' subtotal=subtotal cartid=cartid %}">
+            {% csrf_token %}
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Left side: Customer Information -->
+
+                <div class="md:w-2/3">
+                    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                        <h2 class="text-2xl font-semibold mb-4">Customer Information</h2>
+
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
                                 Full Name
                             </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Tosar Ahmed" required>
+                            <input
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="name" name="name" type="text" placeholder="Tosar Ahmed" required>
                         </div>
                         <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="division">
                                 Division
                             </label>
-                            <select id="division" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                            <select id="division" name="division"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                required>
                                 <option selected>Choose a Division</option>
                                 <option value="Barishal">Barishal</option>
                                 <option value="Chattogram">Chattogram</option>
@@ -32,48 +39,56 @@
                                 <option value="Rangpur">Rangpur</option>
                                 <option value="Mymensingh">Mymensingh</option>
                                 <option value="Sylhet">Sylhet</option>
-                              </select>
+                            </select>
                         </div>
                         <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="district">
                                 District
                             </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="district" type="text" placeholder="Gazipur" required>
+                            <input name="district"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="district" type="text" placeholder="Gazipur" required>
                         </div>
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="address">
                                 Shipping Address
                             </label>
-                            <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="address" placeholder="kantu market, Tapir bari, Sreepur, 1740" required rows="3"></textarea>
+                            <textarea name="address"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="address" placeholder="kantu market, Tapir bari, Sreepur, 1740" required
+                                rows="3"></textarea>
                         </div>
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
                                 Phone Number
                             </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" type="tel" placeholder="01700000000" required>
+                            <input name="phone"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="phone" type="tel" placeholder="01700000000" required>
                         </div>
-                    </form>
+
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Right side: Payment Method -->
-            <div class="md:w-1/3">
-                <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                    <h2 class="text-2xl font-semibold mb-4">Payment Method</h2>
-                    <form>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="payment">
-                                Select Payment Method
-                            </label>
-                            <div class="mt-2 space-y-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="payment" value="credit_card" class="form-radio h-4 w-4 text-blue-600" checked>
-                                    <span class="ml-2">Cash on Delivery</span>
+
+                <!-- Right side: Payment Method -->
+                <div class="md:w-1/3">
+                    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                        <h2 class="text-2xl font-semibold mb-4">Payment Method</h2>
+                        <form>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="payment">
+                                    Select Payment Method
                                 </label>
-                                 
+                                <div class="mt-2 space-y-2">
+                                    <label class="flex items-center">
+                                        <input type="radio" name="payment" value="credit_card"
+                                            class="form-radio h-4 w-4 text-blue-600" checked>
+                                        <span class="ml-2">Cash on Delivery</span>
+                                    </label>
+
+                                </div>
                             </div>
-                        </div>
-                        <!-- <div id="credit-card-fields" class="mb-4">
+                            <!-- <div id="credit-card-fields" class="mb-4">
                             <div class="mb-2">
                                 <label class="block text-gray-700 text-sm font-bold mb-2" for="card_number">
                                     Card Number
@@ -95,28 +110,31 @@
                                 </div>
                             </div>
                         </div> -->
-                    </form>
-                </div>
-                <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                    <h2 class="text-2xl font-semibold mb-4">Order Summary</h2>
-                    <div class="flex justify-between mb-2">
-                        <span>Subtotal</span>
-                        <span>{{subtotal}} TK</span>
+                        </form>
                     </div>
-                    <div class="flex justify-between mb-2">
-                        <span>Delivery Cost</span>
-                        <span>{{delivery_cost}} TK</span>
+                    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                        <h2 class="text-2xl font-semibold mb-4">Order Summary</h2>
+                        <div class="flex justify-between mb-2">
+                            <span>Subtotal</span>
+                            <span>{{subtotal}} TK</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span>Delivery Cost</span>
+                            <span>{{delivery_cost}} TK</span>
+                        </div>
+                        <div class="flex justify-between mb-2 font-bold">
+                            <span>Total</span>
+                            <span>{{total_amount}} TK</span>
+                        </div>
+                        <button
+                            class="bg-teal-600 block mt-4 text-center cursor-pointer hover:bg-teal-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full mt-4"
+                            type="submit">
+                            Confirm Order
+                        </button>
                     </div>
-                    <div class="flex justify-between mb-2 font-bold">
-                        <span>Total</span>
-                        <span>{{total_amount}} TK</span>
-                    </div>
-                    <button class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full mt-4" type="submit">
-                        Confirm Order
-                    </button>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 {% endblock %}

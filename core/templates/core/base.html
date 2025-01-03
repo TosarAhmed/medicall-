@@ -1,71 +1,77 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport", content="width=device-width", initial-scale="1.0">
 
-        <script src="https://cdn.tailwindcss.com"></script>
-        <title>{% block title %} {% endblock %} | MediCall+ </title>
-    </head>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" , content="width=device-width" , initial-scale="1.0">
 
-    <body>
-        <nav class="px-2 py-2 flex justify-between items-center border-b border-gray-200">
-            <a href="/", class="text-xl font-semibold text-teal-600">MediCall+</a>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <title>{% block title %} {% endblock %} | MediCall+ </title>
+</head>
 
-            <div class="space-x-6">
-                <div class="flex gap-3 justify-between items-center px-8"></div>
-                <a href="{% url 'item:items' %}", class="text-sm font-semibold hover:text-teal-400">Browse Medicine</a>
+<body>
+    <nav class="px-2 py-2 flex justify-between items-center border-b border-gray-200">
+        <a href="/" , class="text-xl font-semibold text-teal-600">MediCall+</a>
 
-                {% if request.user.is_authenticated %}
-                    
-                        <a href="{% url 'item:new' %}", class="text-sm font-semibold hover:text-teal-400">Add Medicine</a>
-                        <a href="{% url 'item:cart-items' %}", class="text-sm font-semibold hover:text-teal-400">
-                            Cart
-                            {% if cart_item_count > 0 %}
-                            <span class="bg-red-600 text-white text-xs font-medium me-2 px-1.5 py-0.5 rounded-full dark:bg-red-600 dark:text-red-300">
-                                {{cart_item_count}}
-                            </span>
-                            {% endif %}
-                        </a>
-                        <a href="{% url 'dashboard:index' %}", class="text-sm font-semibold hover:text-teal-400">Dashboard</a>
-                        <form method="post" class="inline" action="{% url 'core:logout' %}">
-                            {% csrf_token %}
-                            <button type="submit" class="text-sm text-red-600 font-semibold hover:text-red-800">Logout</button>
-                        </form>
-                         
-                    
-                {% else %}
-                    <a href="{% url 'core:signup' %}", class="text-sm font-semibold hover:text-teal-400">Sign Up</a>
-                    <a href="{% url 'core:login' %}", class="text-sm font-semibold hover:text-teal-400">Log in</a>
+        <div class="space-x-6">
+            <div class="flex gap-3 justify-between items-center px-8"></div>
+            <a href="{% url 'item:items' %}" , class="text-sm font-semibold hover:text-teal-400">Browse Medicine</a>
+
+            {% if request.user.is_authenticated %}
+
+
+            <a href="{% url 'item:cart-items' %}" , class="text-sm font-semibold hover:text-teal-400">
+                Cart
+                {% if cart_item_count > 0 %}
+                <span
+                    class="bg-red-600 text-white text-xs font-medium me-2 px-1.5 py-0.5 rounded-full dark:bg-red-600 dark:text-red-300">
+                    {{cart_item_count}}
+                </span>
                 {% endif %}
-                
-            </div>
-            </div>
-        </nav>
+            </a>
+            <a href="{% url 'dashboard:index' %}" , class="text-sm text-green-600 font-semibold hover:text-teal-400">Track Orders</a>
+            <!-- <a href="{% url 'dashboard:index' %}" , class="text-sm font-semibold hover:text-teal-400">Dashboard</a> -->
+            <form method="post" class="inline" action="{% url 'core:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="text-sm text-red-600 font-semibold hover:text-red-800">Logout - ({{request.user.username}})</button>
+            </form>
 
-        <div class="px-6 py-6">
+
+            {% else %}
+            <a href="{% url 'core:signup' %}" , class="text-sm font-semibold hover:text-teal-400">Sign Up</a>
+            <a href="{% url 'core:login' %}" , class="text-sm font-semibold hover:text-teal-400">Log in</a>
+            {% endif %}
+
+        </div>
+        </div>
+    </nav>
+
+    <div class="px-6 py-6">
         {% block content %}
         {% endblock %}
+    </div>
+    <footer class="px-6 py-3 flex justify-between">
+        <div class="w-2/3 pr-10">
+
+            <a href="/" , class="text-xl font-semibold text-teal-600">MediCall+</a>
+            <p class="text-gray-400">Tosar Ahmed. <br> B.Sc in Software Engineering <br> at Daffodil International
+                University.</p>
         </div>
-        <footer class="px-6 py-3 flex justify-between">
-            <div class="w-2/3 pr-10">
- 
-                <a href="/", class="text-xl font-semibold text-teal-600">MediCall+</a>
-                <p class="text-gray-400">Tosar Ahmed. <br> B.Sc in Software Engineering <br> at Daffodil International University.</p>
-            </div>
 
-            <div class=" ">
-                <ul>
-                    <li><a href="#", class="text-sm font-semibold hover:text-teal-400">About</a></li>
-                    <li><a href="{% url 'core:contact' %}", class="text-sm font-semibold hover:text-teal-400">Contact</a></li>
-                    <li><a href="#", class="text-sm font-semibold hover:text-teal-400">Privacy Policy</a></li>
-                    <li><a href="#", class="text-sm font-semibold hover:text-teal-400">Use of Terms</a></li>
-                </ul>
-                    
-            </div>
+        <div class=" ">
+            <ul>
+                <li><a href="#" , class="text-sm font-semibold hover:text-teal-400">About</a></li>
+                <li><a href="{% url 'core:contact' %}" , class="text-sm font-semibold hover:text-teal-400">Contact</a>
+                </li>
+                <li><a href="#" , class="text-sm font-semibold hover:text-teal-400">Privacy Policy</a></li>
+                <li><a href="#" , class="text-sm font-semibold hover:text-teal-400">Use of Terms</a></li>
+            </ul>
 
-        </footer>
-    </body>
+        </div>
+
+    </footer>
+</body>
 
 </html>
