@@ -73,3 +73,9 @@ def place_order(request):
 def order_confirmation(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     return render(request, 'payment/order_confirmation.html', {'order': order})
+
+@login_required
+def track_order(request):
+    orders = Order.objects.filter(user=request.user).all()
+
+    return render(request, 'payment/track_order.html', {"orders": orders})

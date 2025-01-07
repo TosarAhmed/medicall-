@@ -31,7 +31,7 @@
                 </span>
                 {% endif %}
             </a>
-            <a href="{% url 'dashboard:index' %}" , class="text-sm text-green-600 font-semibold hover:text-teal-400">Track Orders</a>
+            <a href="{% url 'payment:track-order' %}" , class="text-sm text-green-600 font-semibold hover:text-teal-400">Track Orders</a>
             <!-- <a href="{% url 'dashboard:index' %}" , class="text-sm font-semibold hover:text-teal-400">Dashboard</a> -->
             <form method="post" class="inline" action="{% url 'core:logout' %}">
                 {% csrf_token %}
