@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
+
+from core.models import UserOTP 
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget = forms.TextInput(attrs={
@@ -14,6 +16,11 @@ class LoginForm(AuthenticationForm):
     }))
 
 class SignupForm (UserCreationForm):
+    mobile = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Your Mobile Number',
+        'class': 'w-full px-4 py-3 rounded-xl'
+    }))
+
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
@@ -37,3 +44,11 @@ class SignupForm (UserCreationForm):
         'placeholder': 'Confirm Password',
         'class': 'w-full px-4 py-3 rounded-xl'
     }))
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+            # Save the mobile field in a separate model (e.g., UserOTP)
+            UserOTP.objects.create(user=user, mobile=self.cleaned_data['mobile'])
+        return user

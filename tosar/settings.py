@@ -148,3 +148,8 @@ UNFOLD = {
     "SITE_HEADER": "Medicall+",
 
 }
+
+# Bulk sms for otp
+# api_key, sender_id
+BULK_SMS_API_KEY = '6F1vWkwXRnbw9r6q1iJU'
+BULK_SMS_SENDER_ID = '8809617619444'
