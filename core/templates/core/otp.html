@@ -6,7 +6,7 @@
 
 <div class="w-1/3 my-6 mx-auto p-6 rounded-xl">
     <p class="text-xl font-semibold text-teal-600">MediCall+</p>
-    <h1 class="mb-4 text-xl">Login</h1>
+    <h1 class="mb-4 text-xl">Verify OTP</h1>
 
     <form method="POST" action="{% url 'core:verify-otp' %}">
         {% csrf_token %}
